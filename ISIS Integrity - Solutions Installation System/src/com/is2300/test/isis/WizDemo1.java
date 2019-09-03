@@ -16,6 +16,7 @@
  */
 package com.is2300.test.isis;
 
+import com.is2300.isis.pages.FoodPanelProvider;
 import java.awt.EventQueue;
 import java.util.Map;
 import org.netbeans.api.wizard.WizardDisplayer;
@@ -36,78 +37,79 @@ public class WizDemo1 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
-        final Class[] pages = new Class[] {
-            DemoPage.class
+
+        final Class[] pages = new Class[]{
+            FoodPanelProvider.class
         };
-        
+
         Runnable r;
         r = new Runnable() {
             public void run() {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+                /* Set the Nimbus look and feel */
+                //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+                /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ( System.getProperty("os.name").toLowerCase().contains("linux") ) {
-                    if ("Nimbus".equals(info.getName())) {
-                        javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                        break;
+                 */
+                try {
+                    for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                        if (System.getProperty("os.name").toLowerCase().contains("linux")) {
+                            if ("Nimbus".equals(info.getName())) {
+                                javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                                break;
+                            }
+                        } else {
+                            javax.swing.UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
+                        }
                     }
-                } else {
-                    javax.swing.UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
+                } catch (ClassNotFoundException ex) {
+                    java.util.logging.Logger.getLogger(WizDemo1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                } catch (InstantiationException ex) {
+                    java.util.logging.Logger.getLogger(WizDemo1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                } catch (IllegalAccessException ex) {
+                    java.util.logging.Logger.getLogger(WizDemo1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+                    java.util.logging.Logger.getLogger(WizDemo1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
                 }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(WizDemo1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(WizDemo1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(WizDemo1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(WizDemo1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+                //</editor-fold>
+
                 MyProducer mp = new MyProducer();
                 Wizard wizard = WizardPage.createWizard(pages, mp);
                 System.out.println("Result = " + WizardDisplayer.showWizard(wizard));
                 System.exit(0);
             }
         };
-        
+
         EventQueue.invokeLater(r);
     }
-    
+
 }
 
 class MyProducer implements WizardPage.WizardResultProducer {
+
     public Object finish(Map wizardData) throws WizardException {
         System.out.println("finish called");
         System.out.println(wizardData);
-        
+
 //        String[] items = new String[2];
 //        items[0] = "First Name: " + wizardData.get("first");
 //        items[1] = "Last Name: " + wizardData.get("last");
-        
         return new Result();
     }
 
-    public boolean cancel ( Map settings ) {
+    public boolean cancel(Map settings) {
         System.out.println("cancel called");
         System.out.println(settings);
-        
+
         return true;
     }
 }
 
 class Result extends DeferredWizardResult {
-    
+
     public Result() {
         // Uncomment the following line to make it possible to close the dialog
         //+ while the operation is running (abort the operation, in other words).
-        
+
 //         super(true);
     }
 
@@ -117,27 +119,27 @@ class Result extends DeferredWizardResult {
         try {
             Thread.sleep(3000);
         } catch (InterruptedException ie) {
-            
+
         }
-        
+
         progress.setProgress("Phase 2", 1, 3);
         try {
             Thread.sleep(1000);
         } catch (InterruptedException ie) {
-            
+
         }
-        
+
         progress.setProgress("Phase 3", 2, 3);
         try {
             Thread.sleep(2000);
         } catch (InterruptedException ie) {
-            
+
         }
-        
+
         String[] items = new String[2];
         items[0] = "First Name: " + settings.get("first");
         items[1] = "Last Name: " + settings.get("last");
-        
+
         // Replace null with an object reference to have this object returned
         //+ from showWizard() method.
         progress.finished(Summary.create(items, this));

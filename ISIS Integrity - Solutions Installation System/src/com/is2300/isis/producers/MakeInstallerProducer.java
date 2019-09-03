@@ -18,6 +18,7 @@ package com.is2300.isis.producers;
 
 import com.is2300.isis.generators.InstallerGenerator;
 import java.util.Map;
+import java.util.Properties;
 import javax.swing.JLabel;
 import org.netbeans.spi.wizard.Summary;
 import org.netbeans.spi.wizard.WizardException;
@@ -28,6 +29,7 @@ import org.netbeans.spi.wizard.WizardPage;
  * @author Sean Carrick <sean at carricktrucking.com>
  */
 public class MakeInstallerProducer implements WizardPage.WizardResultProducer {
+    public static Properties props;
     
     @Override
     public Object finish(Map wizardData) throws WizardException {
