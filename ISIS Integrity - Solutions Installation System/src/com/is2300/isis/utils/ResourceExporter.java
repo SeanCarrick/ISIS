@@ -21,6 +21,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URL;
 
 /**
  *
@@ -30,14 +31,25 @@ public class ResourceExporter {
     
     public static String exportResource(String resourceName, Class cls, 
                     String outPath, int startPoint) throws Exception {
-        File files = new File(cls.getResource(
-                cls.getResource(cls.getSimpleName() +
-                ".class").toString().substring(
-                startPoint, cls.getResource(
-                cls.getSimpleName() + ".class").toString().lastIndexOf("/")
-                + 1)) + "files");
-        
-        InputStream in = new FileInputStream(files);
+        /* DATE:    September 3, 2019
+         * AUTHOR:  Sean Carrick
+         * REASON:  Thanks to comment on StackOverflow, I was slapped in the 
+         *          head due to the fact that I was trying to load a resource
+         *          as a File, which cannot be done directly. I first need to 
+         *          get the URL of the resource, convert that to a URI, then
+         *          create the File object.
+         */
+//        URL url = new URL(cls.getResource(
+//                cls.getResource(cls.getSimpleName() +
+//                ".class").toString().substring(
+//                startPoint, cls.getResource(
+//                cls.getSimpleName() + ".class").toString().lastIndexOf("/")
+//                + 1)) + "files");
+//        URL url = cls.getClass().getResource(resourceName);
+//        URL url = ClassLoader.getSystemResource(resourceName);
+//        File files = new File(url.toURI());
+
+        InputStream in = ClassLoader.getSystemClassLoader().getSystemResourceAsStream(resourceName);
         FileOutputStream out = new FileOutputStream(outPath + 
                         resourceName.substring(resourceName.lastIndexOf("/")));
         
@@ -49,7 +61,7 @@ public class ResourceExporter {
         in.close();
         out.close();
         
-        return files.getAbsolutePath();
+        return out.toString();
     }
     
     public static String exportResource(String resourceName) throws Exception {

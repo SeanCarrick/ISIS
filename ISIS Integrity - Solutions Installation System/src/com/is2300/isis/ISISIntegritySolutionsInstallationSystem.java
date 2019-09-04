@@ -6,8 +6,7 @@
 package com.is2300.isis;
 
 import com.is2300.isis.utils.ResourceExporter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.File;
 
 /**
  *
@@ -24,6 +23,14 @@ public class ISISIntegritySolutionsInstallationSystem {
         // Test our 'utils.ResourceExporter.exportResource(String resourceName)
         //+ function.
         
+        String outPath = System.getProperty("user.home") 
+                         + System.getProperty("file.separator") + "tmp"
+                         + System.getProperty("file.separator");
+        File tmp = new File(outPath);
+        
+        if ( !tmp.exists() )
+            tmp.mkdir();
+        
         // Set the start point of our substring to either 5 or 9, depending upon
         //+ if we are debugging (in NetBeans) or not (executing the JAR).
         if ( isDebugging ) {
@@ -32,52 +39,13 @@ public class ISISIntegritySolutionsInstallationSystem {
             startPoint = 9;
         }
         
-        // First, we'll try just the name of the resource file to export.
-        String rsName = "PSInstaller.jar";
+        // We'll use a variable name to make it easier to change later.
+        String rsName = "com/is2300/isis/resources/derby.jar";
         
         try {
             System.out.println(ResourceExporter.exportResource(rsName, 
                     ISISIntegritySolutionsInstallationSystem.class, 
-                    "/home/sean/tmp", startPoint));
-        } catch (Exception ex) {
-            System.err.println(ex.getCause());
-            System.err.println(ex.getMessage());
-            ex.printStackTrace(System.err);
-        }
-        
-        // Then, we'll try it with the absolute path.
-        rsName = "/com/is2300/isis/resources/PSInstaller.jar";
-        
-        try {
-            System.out.println(ResourceExporter.exportResource(rsName, 
-                    ISISIntegritySolutionsInstallationSystem.class, 
-                    "/home/sean/tmp", startPoint));
-        } catch (Exception ex) {
-            System.err.println(ex.getCause());
-            System.err.println(ex.getMessage());
-            ex.printStackTrace(System.err);
-        }
-        
-        // Then, we'll try it with the relative path.
-        rsName = "../resources/PSInstaller.jar";
-        
-        try {
-            System.out.println(ResourceExporter.exportResource(rsName, 
-                    ISISIntegritySolutionsInstallationSystem.class, 
-                    "/home/sean/tmp", startPoint));
-        } catch (Exception ex) {
-            System.err.println(ex.getCause());
-            System.err.println(ex.getMessage());
-            ex.printStackTrace(System.err);
-        }
-        
-        // Last, we'll try it using dots instead of slashes.
-        rsName = "com.is2300.isis.resources.PSInstaller.jar";
-        
-        try {
-            System.out.println(ResourceExporter.exportResource(rsName, 
-                    ISISIntegritySolutionsInstallationSystem.class, 
-                    "/home/sean/tmp", startPoint));
+                    outPath, startPoint));
         } catch (Exception ex) {
             System.err.println(ex.getCause());
             System.err.println(ex.getMessage());
