@@ -31,23 +31,6 @@ public class ResourceExporter {
     
     public static String exportResource(String resourceName, Class cls, 
                     String outPath, int startPoint) throws Exception {
-        /* DATE:    September 3, 2019
-         * AUTHOR:  Sean Carrick
-         * REASON:  Thanks to comment on StackOverflow, I was slapped in the 
-         *          head due to the fact that I was trying to load a resource
-         *          as a File, which cannot be done directly. I first need to 
-         *          get the URL of the resource, convert that to a URI, then
-         *          create the File object.
-         */
-//        URL url = new URL(cls.getResource(
-//                cls.getResource(cls.getSimpleName() +
-//                ".class").toString().substring(
-//                startPoint, cls.getResource(
-//                cls.getSimpleName() + ".class").toString().lastIndexOf("/")
-//                + 1)) + "files");
-//        URL url = cls.getClass().getResource(resourceName);
-//        URL url = ClassLoader.getSystemResource(resourceName);
-//        File files = new File(url.toURI());
 
         InputStream in = ClassLoader.getSystemClassLoader().getSystemResourceAsStream(resourceName);
         FileOutputStream out = new FileOutputStream(outPath + 
