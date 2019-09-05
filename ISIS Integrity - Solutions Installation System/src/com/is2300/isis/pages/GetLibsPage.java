@@ -19,9 +19,6 @@ package com.is2300.isis.pages;
 import java.awt.Component;
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.netbeans.spi.wizard.WizardPage;
@@ -30,19 +27,19 @@ import org.netbeans.spi.wizard.WizardPage;
  *
  * @author Sean Carrick <sean at carricktrucking.com>
  */
-public class GetLAPage extends WizardPage {
-    public GetLAPage() {
+public class GetLibsPage extends WizardPage {
+    public GetLibsPage() {
         initComponents();
     }
     
     public static final String getDescription() {
-        return "Choose Your Project's License File";
+        return "Select Library File(s)";
     }
     
     @Override
     protected String validateContents(Component component, Object event) {
-        if ( component == null || !((JCheckBox)component).isSelected() )
-            return "Do you wish to use this file?";
+        if ( txtJARFile.getText().endsWith("{somefile}.jar") )
+            return "You need to select your project's JAR file.";
         
         return null;
     }
@@ -58,15 +55,16 @@ public class GetLAPage extends WizardPage {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         edtLicense = new javax.swing.JEditorPane();
-        license = new javax.swing.JCheckBox();
-        btnSelectLicense = new javax.swing.JButton();
+        jar = new javax.swing.JButton();
+        lblJARFile = new javax.swing.JLabel();
+        txtJARFile = new javax.swing.JTextField();
 
         setMaximumSize(new java.awt.Dimension(530, 360));
         setMinimumSize(new java.awt.Dimension(530, 360));
 
         edtLicense.setEditable(false);
         try {
-            edtLicense.setPage(ClassLoader.getSystemResource("com/is2300/isis/contents/license.txt"));
+            edtLicense.setPage(ClassLoader.getSystemResource("com/is2300/isis/contents/jar.html"));
         } catch ( IOException ex ) {
             System.err.println("Cause: " + ex.getCause().toString());
             System.err.println("Message: " + ex.getMessage());
@@ -74,18 +72,17 @@ public class GetLAPage extends WizardPage {
         }
         jScrollPane1.setViewportView(edtLicense);
 
-        license.setMnemonic('U');
-        license.setText("Use this license.");
-
-        // Make sure that the selection value writes to the Map.
-        license.setSelected(!license.isSelected());
-        license.setSelected(!license.isSelected());
-
-        btnSelectLicense.setMnemonic('L');
-        btnSelectLicense.setText("Select License...");
-        btnSelectLicense.addActionListener((java.awt.event.ActionEvent evt) -> {
-            License_Clicked(evt);
+        jar.setMnemonic('J');
+        jar.setText("Select JAR File...");
+        jar.addActionListener((java.awt.event.ActionEvent evt) -> {
+            JAR_Clicked(evt);
         });
+
+        lblJARFile.setText("JAR File:");
+
+        txtJARFile.setText(System.getProperty("user.home") + 
+                           System.getProperty("file.separator") +
+                           "{somefile}.jar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -94,9 +91,11 @@ public class GetLAPage extends WizardPage {
             .addComponent(jScrollPane1)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnSelectLicense)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 273, Short.MAX_VALUE)
-                .addComponent(license)
+                .addComponent(lblJARFile)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtJARFile, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jar)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -105,46 +104,36 @@ public class GetLAPage extends WizardPage {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(license)
-                    .addComponent(btnSelectLicense))
+                    .addComponent(jar)
+                    .addComponent(lblJARFile)
+                    .addComponent(txtJARFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
     }// </editor-fold>                        
 
-    private void License_Clicked(java.awt.event.ActionEvent evt) {                                 
+    private void JAR_Clicked(java.awt.event.ActionEvent evt) {                             
         // Create and display a file selector.
         JFileChooser chooser = new JFileChooser(System.getProperty("user.home"));
         FileNameExtensionFilter filter = new FileNameExtensionFilter("License "
-                + "Text Files", "txt");
+                + "Java Archive Files", "jar");
         chooser.setFileFilter(filter);
-        chooser.setDialogTitle("Select License File");
+        chooser.setDialogTitle("Select Project JAR File");
         
         int returnVal = chooser.showOpenDialog(this);
         
         if ( returnVal == JFileChooser.APPROVE_OPTION ) {
-            File license = chooser.getSelectedFile();
+            File jar = chooser.getSelectedFile();
             
-            try {
-                URL url = new URL(license.toURI().toURL().toString());
-                
-                edtLicense.setPage(url);
-            } catch (MalformedURLException ex) {
-                System.err.println("Cause:\t" + ex.getCause().toString());
-                System.err.println("Message:\t" + ex.getLocalizedMessage()); 
-                ex.printStackTrace(System.err);
-            } catch (IOException ex) {
-                System.err.println("Cause:\t" + ex.getCause().toString());
-                System.err.println("Message:\t" + ex.getLocalizedMessage()); 
-                ex.printStackTrace(System.err);
-            }
+            txtJARFile.setText(jar.getAbsolutePath());
         }
-    }                                
+    }                            
 
 
     // Variables declaration - do not modify                     
-    private javax.swing.JButton btnSelectLicense;
     private javax.swing.JEditorPane edtLicense;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JCheckBox license;
+    private javax.swing.JButton jar;
+    private javax.swing.JLabel lblJARFile;
+    private javax.swing.JTextField txtJARFile;
     // End of variables declaration                   
 }

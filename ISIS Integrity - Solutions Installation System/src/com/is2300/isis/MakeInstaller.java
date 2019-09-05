@@ -16,6 +16,7 @@
  */
 package com.is2300.isis;
 
+import com.is2300.isis.pages.GetAddtlJARsPage;
 import com.is2300.isis.pages.GetDefInstLocPage;
 import com.is2300.isis.pages.GetJARPage;
 import com.is2300.isis.pages.GetLAPage;
@@ -42,6 +43,7 @@ public class MakeInstaller {
             GetTitlePage.class, 
             GetLAPage.class, 
             GetJARPage.class, 
+            GetAddtlJARsPage.class,
             GetDefInstLocPage.class
         };
         
