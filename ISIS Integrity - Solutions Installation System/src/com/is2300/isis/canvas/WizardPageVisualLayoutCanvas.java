@@ -18,10 +18,7 @@ package com.is2300.isis.canvas;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -48,56 +45,87 @@ public class WizardPageVisualLayoutCanvas extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        edtLicense = new javax.swing.JEditorPane();
-        lblJARFile = new javax.swing.JLabel();
-        txtJARFile = new javax.swing.JTextField();
+        edtLibraries = new javax.swing.JEditorPane();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        lstFiles = new javax.swing.JList<>();
+        btnSelectLibraries = new javax.swing.JButton();
 
         setMaximumSize(new java.awt.Dimension(530, 360));
         setMinimumSize(new java.awt.Dimension(530, 360));
 
-        edtLicense.setEditable(false);
+        edtLibraries.setEditable(false);
         try {
-            edtLicense.setPage(ClassLoader.getSystemResource("com/is2300/isis/contents/license.txt"));
+            edtLibraries.setPage(ClassLoader.getSystemResource("com/is2300/isis/contents/libraries.html"));
         } catch ( IOException ex ) {
             System.err.println("Cause: " + ex.getCause().toString());
             System.err.println("Message: " + ex.getMessage());
             ex.printStackTrace(System.err);
         }
-        jScrollPane1.setViewportView(edtLicense);
+        jScrollPane1.setViewportView(edtLibraries);
 
-        lblJARFile.setText("Default Install Location:");
+        jScrollPane2.setViewportView(lstFiles);
 
-        txtJARFile.setText(System.getProperty("user.home") + "{somefile}.jar");
+        btnSelectLibraries.setText("Select Library Files...");
+        btnSelectLibraries.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Button_Click(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblJARFile)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtJARFile, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnSelectLibraries)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblJARFile)
-                    .addComponent(txtJARFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnSelectLibraries)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void Button_Click(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_Click
+        // Create and display a file selector.
+        JFileChooser chooser = new JFileChooser(System.getProperty("user.home"));
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("License "
+                + "Java Archive Files", "jar");
+        chooser.setFileFilter(filter);
+        chooser.setDialogTitle("Select Project JAR File");
+        
+        int returnVal = chooser.showOpenDialog(this);
+        
+        if ( returnVal == JFileChooser.APPROVE_OPTION ) {
+            DefaultListModel<String> model = new DefaultListModel<>();
+            File[] files = chooser.getSelectedFiles();
+            
+            for ( File file : files ) {
+                model.addElement(file.getAbsolutePath());
+            }
+            
+            lstFiles.setModel(model);
+        }
+    }//GEN-LAST:event_Button_Click
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JEditorPane edtLicense;
+    private javax.swing.JButton btnSelectLibraries;
+    private javax.swing.JEditorPane edtLibraries;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblJARFile;
-    private javax.swing.JTextField txtJARFile;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JList<String> lstFiles;
     // End of variables declaration//GEN-END:variables
 }

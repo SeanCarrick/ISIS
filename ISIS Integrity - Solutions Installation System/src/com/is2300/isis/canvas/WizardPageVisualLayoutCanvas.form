@@ -25,11 +25,15 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
-          <Group type="102" alignment="1" attributes="0">
+          <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="lblJARFile" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="txtJARFile" pref="370" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jScrollPane2" pref="518" max="32767" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="btnSelectLibraries" min="-2" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -37,12 +41,11 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <Component id="jScrollPane1" pref="321" max="32767" attributes="0"/>
+              <Component id="jScrollPane1" min="-2" pref="147" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="lblJARFile" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtJARFile" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
+              <Component id="jScrollPane2" pref="168" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="btnSelectLibraries" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -56,25 +59,42 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JEditorPane" name="edtLicense">
+        <Component class="javax.swing.JEditorPane" name="edtLibraries">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
           </Properties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="try {&#xa;    edtLicense.setPage(ClassLoader.getSystemResource(&quot;com/is2300/isis/contents/license.txt&quot;));&#xa;} catch ( IOException ex ) {&#xa;    System.err.println(&quot;Cause: &quot; + ex.getCause().toString());&#xa;    System.err.println(&quot;Message: &quot; + ex.getMessage());&#xa;    ex.printStackTrace(System.err);&#xa;}"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="try {&#xa;    edtLibraries.setPage(ClassLoader.getSystemResource(&quot;com/is2300/isis/contents/libraries.html&quot;));&#xa;} catch ( IOException ex ) {&#xa;    System.err.println(&quot;Cause: &quot; + ex.getCause().toString());&#xa;    System.err.println(&quot;Message: &quot; + ex.getMessage());&#xa;    ex.printStackTrace(System.err);&#xa;}"/>
           </AuxValues>
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JLabel" name="lblJARFile">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Default Install Location:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="txtJARFile">
+    <Container class="javax.swing.JScrollPane" name="jScrollPane2">
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="txtJARFile.setText(System.getProperty(&quot;user.home&quot;) + &quot;{somefile}.jar&quot;);&#xa;"/>
+        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
       </AuxValues>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JList" name="lstFiles">
+          <Properties>
+            <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
+              <StringArray count="0"/>
+            </Property>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Component class="javax.swing.JButton" name="btnSelectLibraries">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Select Library Files..."/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Button_Click"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

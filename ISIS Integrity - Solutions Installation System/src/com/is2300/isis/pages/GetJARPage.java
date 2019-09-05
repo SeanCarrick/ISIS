@@ -33,7 +33,7 @@ public class GetJARPage extends WizardPage {
     }
     
     public static final String getDescription() {
-        return "Welcome to the ISIS Wizard";
+        return "Select Primary Project JAR File";
     }
     
     @Override
@@ -64,7 +64,7 @@ public class GetJARPage extends WizardPage {
 
         edtLicense.setEditable(false);
         try {
-            edtLicense.setPage(ClassLoader.getSystemResource("com/is2300/isis/contents/license.txt"));
+            edtLicense.setPage(ClassLoader.getSystemResource("com/is2300/isis/contents/jar.html"));
         } catch ( IOException ex ) {
             System.err.println("Cause: " + ex.getCause().toString());
             System.err.println("Message: " + ex.getMessage());

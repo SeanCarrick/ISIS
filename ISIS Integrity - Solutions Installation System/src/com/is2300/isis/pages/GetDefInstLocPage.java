@@ -29,7 +29,7 @@ public class GetDefInstLocPage extends WizardPage {
     }
     
     public static final String getDescription() {
-        return "Welcome to the ISIS Wizard";
+        return "Set Your Project's Default Install Location";
     }
 
     /**
