@@ -16,13 +16,14 @@
  */
 package com.is2300.isis;
 
+import com.is2300.isis.pages.GetDefInstLocPage;
+import com.is2300.isis.pages.GetJARPage;
+import com.is2300.isis.pages.GetLAPage;
 import com.is2300.isis.producers.MakeInstallerProducer;
 import com.is2300.isis.pages.GetTitlePage;
-import com.is2300.isis.pages.GetLAPage;
-import com.is2300.isis.pages.GetJARPage;
-import com.is2300.isis.pages.GetDefInstLocPage;
 import java.awt.EventQueue;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
 import org.netbeans.api.wizard.WizardDisplayer;
 import org.netbeans.spi.wizard.Wizard;
 import org.netbeans.spi.wizard.WizardPage;
@@ -38,17 +39,24 @@ public class MakeInstaller {
      */
     public static void main(String[] args) {
         final Class[] pages = new Class[] {
-            GetTitlePage.class, GetLAPage.class, 
-            GetJARPage.class, GetDefInstLocPage.class
+            GetTitlePage.class, 
+            GetLAPage.class, 
+            GetJARPage.class, 
+            GetDefInstLocPage.class
         };
         
         Runnable r;
         r = new Runnable() {
             public void run() {
                 MakeInstallerProducer mip = new MakeInstallerProducer();
+                int height = Toolkit.getDefaultToolkit().getScreenSize().height;
+                int width = Toolkit.getDefaultToolkit().getScreenSize().width;
+                int x = (width - 800) / 2;
+                int y = (height - 500) / 2;
+                
                 Wizard wizard = WizardPage.createWizard("Make Installer", pages,
                         mip);
-                WizardDisplayer.showWizard(wizard, new Rectangle(20, 20, 600, 200));
+                WizardDisplayer.showWizard(wizard, new Rectangle(x, y, 800, 500));
                 
                 System.exit(0);
             }
