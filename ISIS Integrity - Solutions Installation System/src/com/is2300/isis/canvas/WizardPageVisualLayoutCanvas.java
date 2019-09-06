@@ -16,11 +16,9 @@
  */
 package com.is2300.isis.canvas;
 
-import java.io.File;
+import com.is2300.isis.ISIS;
 import java.io.IOException;
-import javax.swing.DefaultListModel;
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  *
@@ -45,87 +43,55 @@ public class WizardPageVisualLayoutCanvas extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        edtLibraries = new javax.swing.JEditorPane();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        lstFiles = new javax.swing.JList<>();
-        btnSelectLibraries = new javax.swing.JButton();
+        edtWelcom = new javax.swing.JEditorPane();
+        lblProject = new javax.swing.JLabel();
+        txtProject = new javax.swing.JTextField();
+        txtProject.setName("project");
 
         setMaximumSize(new java.awt.Dimension(530, 360));
         setMinimumSize(new java.awt.Dimension(530, 360));
 
-        edtLibraries.setEditable(false);
+        edtWelcom.setEditable(false);
         try {
-            edtLibraries.setPage(ClassLoader.getSystemResource("com/is2300/isis/contents/libraries.html"));
+            edtWelcom.setPage(ClassLoader.getSystemResource("com/is2300/isis/contents/title.html"));
         } catch ( IOException ex ) {
             System.err.println("Cause: " + ex.getCause().toString());
             System.err.println("Message: " + ex.getMessage());
             ex.printStackTrace(System.err);
         }
-        jScrollPane1.setViewportView(edtLibraries);
+        jScrollPane1.setViewportView(edtWelcom);
 
-        jScrollPane2.setViewportView(lstFiles);
-
-        btnSelectLibraries.setText("Select Library Files...");
-        btnSelectLibraries.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Button_Click(evt);
-            }
-        });
+        lblProject.setText("Enter Project Name (for Install Folder):");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnSelectLibraries)))
+                .addComponent(lblProject)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtProject)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnSelectLibraries)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblProject)
+                    .addComponent(txtProject, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void Button_Click(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_Click
-        // Create and display a file selector.
-        JFileChooser chooser = new JFileChooser(System.getProperty("user.home"));
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("License "
-                + "Java Archive Files", "jar");
-        chooser.setFileFilter(filter);
-        chooser.setDialogTitle("Select Project JAR File");
-        
-        int returnVal = chooser.showOpenDialog(this);
-        
-        if ( returnVal == JFileChooser.APPROVE_OPTION ) {
-            DefaultListModel<String> model = new DefaultListModel<>();
-            File[] files = chooser.getSelectedFiles();
-            
-            for ( File file : files ) {
-                model.addElement(file.getAbsolutePath());
-            }
-            
-            lstFiles.setModel(model);
-        }
-    }//GEN-LAST:event_Button_Click
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnSelectLibraries;
-    private javax.swing.JEditorPane edtLibraries;
+    private javax.swing.JEditorPane edtWelcom;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JList<String> lstFiles;
+    private javax.swing.JLabel lblProject;
+    private javax.swing.JTextField txtProject;
     // End of variables declaration//GEN-END:variables
 }

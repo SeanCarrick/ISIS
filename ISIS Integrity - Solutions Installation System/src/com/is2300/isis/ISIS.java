@@ -13,6 +13,8 @@ import java.util.Map;
  * @author Sean Carrick
  */
 public class ISIS {
+    public static Map<String, String> environment;
+    
     private static boolean isDebugging = true;
     private static int startPoint = 0;
     
@@ -43,8 +45,11 @@ public class ISIS {
          * running.
         */
         Map<String, String> env = System.getenv();
-        for ( String envName : env.keySet() ) 
+        env.keySet().forEach((envName) -> { 
             System.out.format("%s=%s%n", envName, env.get(envName));
+        });
+        
+        environment = env;
         
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

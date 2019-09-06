@@ -27,6 +27,6 @@ public class InstallerGenerator {
     }
     
     public static String makeInstaller() {
-        return "";
+        return null;
     }
 }

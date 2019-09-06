@@ -22,9 +22,20 @@ import com.is2300.isis.pages.GetJARPage;
 import com.is2300.isis.pages.GetLAPage;
 import com.is2300.isis.producers.MakeInstallerProducer;
 import com.is2300.isis.pages.GetTitlePage;
+import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Graphics2D;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.WritableRaster;
+import javax.swing.ImageIcon;
+import javax.swing.UIManager;
 import org.netbeans.api.wizard.WizardDisplayer;
 import org.netbeans.spi.wizard.Wizard;
 import org.netbeans.spi.wizard.WizardPage;
@@ -47,6 +58,24 @@ public class MakeInstaller {
             GetDefInstLocPage.class
         };
         
+//        ImageIcon image = new ImageIcon(ClassLoader.getSystemResource("com/is2300/"
+//                                          + "isis/contents/WizardSidebar.png"));
+//        if (image != null) {
+//            final ImageIcon icon = new ImageIcon(image.getImage());
+//            Dimension logoSize = new Dimension(icon.getIconWidth(), icon.getIconHeight());
+//            final BufferedImage img
+//                    = createCompatibleTranslucentImage(logoSize.width,
+//                            logoSize.height);
+//            Graphics2D g = img.createGraphics();
+//            g.setColor(Color.white);
+//            g.fillRect(0, 0, icon.getIconWidth(), icon.getIconHeight());
+//            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5F));
+//            icon.paintIcon(null, g, 0, 0);
+//            g.dispose();
+//            UIManager.put("wizard.sidebar.image", createCompatibleTranslucentImage(img.getWidth(), img.getHeight())); //$NON-NLS-1$
+//        }
+        System.setProperty("wizard.sidebar.image", ClassLoader.getSystemResource("com/is2300/isis/contents/WizardSidebar.png").toString());
+        
         Runnable r;
         r = new Runnable() {
             public void run() {
@@ -67,4 +96,28 @@ public class MakeInstaller {
         EventQueue.invokeLater(r);
     }
     
+    public static BufferedImage createCompatibleTranslucentImage(int w, int h) {
+        final BufferedImage compatTransImage;
+        final GraphicsConfiguration gc = getGraphicsConfiguration();
+
+        BufferedImage timg;
+        timg = gc.createCompatibleImage(1, 1, BufferedImage.TRANSLUCENT);
+
+        if (timg.getType() == BufferedImage.TYPE_INT_ARGB_PRE) {
+            timg = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+        }
+
+        compatTransImage = timg;
+        
+//        compatTranslImageType = compatTransImage.getType();
+
+        final ColorModel cm = compatTransImage.getColorModel();
+        final WritableRaster wr = cm.createCompatibleWritableRaster(w, h);
+        return new BufferedImage(cm, wr, cm.isAlphaPremultiplied(), null);
+    }
+
+    private static GraphicsConfiguration getGraphicsConfiguration() {
+        return GraphicsEnvironment.getLocalGraphicsEnvironment().
+                getDefaultScreenDevice().getDefaultConfiguration();
+    }
 }
