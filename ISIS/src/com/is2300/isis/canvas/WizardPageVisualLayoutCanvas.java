@@ -16,10 +16,9 @@
  */
 package com.is2300.isis.canvas;
 
-import com.is2300.isis.ISIS;
 import java.io.File;
 import java.io.IOException;
-import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -46,33 +45,35 @@ public class WizardPageVisualLayoutCanvas extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        edtLibraries = new javax.swing.JEditorPane();
-        lblProject = new javax.swing.JLabel();
-        txtLibraries = new javax.swing.JTextField();
-        txtLibraries.setName("libraries");
-        btnGetLibraries = new javax.swing.JButton();
+        edtJars = new javax.swing.JEditorPane();
+        btnGetJARs = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtAddtlJARs = new javax.swing.JTextArea();
 
         setMaximumSize(new java.awt.Dimension(530, 360));
         setMinimumSize(new java.awt.Dimension(530, 360));
 
-        edtLibraries.setEditable(false);
+        edtJars.setEditable(false);
         try {
-            edtLibraries.setPage(ClassLoader.getSystemResource("com/is2300/isis/contents/libraries.html"));
+            edtJars.setPage(ClassLoader.getSystemResource("com/is2300/isis/contents/libraries.html"));
         } catch ( IOException ex ) {
             System.err.println("Cause: " + ex.getCause().toString());
             System.err.println("Message: " + ex.getMessage());
             ex.printStackTrace(System.err);
         }
-        jScrollPane1.setViewportView(edtLibraries);
+        jScrollPane1.setViewportView(edtJars);
 
-        lblProject.setText("Path to Libraries Folder:");
-
-        btnGetLibraries.setText("...");
-        btnGetLibraries.addActionListener(new java.awt.event.ActionListener() {
+        btnGetJARs.setText("...");
+        btnGetJARs.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LibsFolder_Click(evt);
+                FindJARs_Click(evt);
             }
         });
+
+        txtAddtlJARs.setColumns(20);
+        txtAddtlJARs.setRows(5);
+        txtAddtlJARs.setName("additional.jars");
+        jScrollPane2.setViewportView(txtAddtlJARs);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -81,49 +82,60 @@ public class WizardPageVisualLayoutCanvas extends javax.swing.JPanel {
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblProject)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtLibraries)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnGetLibraries)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnGetJARs))
+                    .addComponent(jScrollPane2))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblProject)
-                    .addComponent(txtLibraries, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnGetLibraries))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnGetJARs)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void LibsFolder_Click(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LibsFolder_Click
+    private void FindJARs_Click(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FindJARs_Click
+        // Add the addtional JAR files to the text area, splitting each one with
+        //+ a new line ('\n') characters.
         // Create and display a file selector.
         JFileChooser chooser = new JFileChooser(System.getProperty("user.home"));
-        chooser.setMultiSelectionEnabled(false);
-        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        chooser.setDialogTitle("Select Libraries Folder");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("License "
+                + "Java Archive Files", "jar");
+        chooser.setFileFilter(filter);
+        chooser.setDialogTitle("Select Project JAR File");
+        chooser.setMultiSelectionEnabled(true);
         
         int returnVal = chooser.showOpenDialog(this);
         
         if ( returnVal == JFileChooser.APPROVE_OPTION ) {
-            File libFolder = chooser.getSelectedFile();
+            File[] files = chooser.getSelectedFiles();
             
-            txtLibraries.setText(libFolder.getAbsolutePath() +
-                                 System.getProperty("file.separator"));
+            if ( files.length > 1 ) {
+            
+                for ( File file : files ) {
+                    txtAddtlJARs.setText(txtAddtlJARs.getText() + 
+                                         file.getAbsolutePath() + "\n");
+                }
+            } else if ( files.length !=0 )
+                txtAddtlJARs.setText(files[0].getAbsolutePath());
+            
+            
         }
-    }//GEN-LAST:event_LibsFolder_Click
+    }//GEN-LAST:event_FindJARs_Click
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnGetLibraries;
-    private javax.swing.JEditorPane edtLibraries;
+    private javax.swing.JButton btnGetJARs;
+    private javax.swing.JEditorPane edtJars;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblProject;
-    private javax.swing.JTextField txtLibraries;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextArea txtAddtlJARs;
     // End of variables declaration//GEN-END:variables
 }

@@ -52,60 +52,65 @@ public class GetAddtlJARsPage extends WizardPage {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        edtAddtlJARs = new javax.swing.JEditorPane();
+        edtJars = new javax.swing.JEditorPane();
+        btnGetJARs = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        lstFiles = new javax.swing.JList<>();
-        btnSelectAdditional = new javax.swing.JButton();
+        txtAddtlJARs = new javax.swing.JTextArea();
 
         setMaximumSize(new java.awt.Dimension(530, 360));
         setMinimumSize(new java.awt.Dimension(530, 360));
 
-        edtAddtlJARs.setEditable(false);
+        edtJars.setEditable(false);
         try {
-            edtAddtlJARs.setPage(ClassLoader.getSystemResource("com/is2300/isis/contents/additional.html"));
+            edtJars.setPage(ClassLoader.getSystemResource("com/is2300/isis/contents/libraries.html"));
         } catch ( IOException ex ) {
             System.err.println("Cause: " + ex.getCause().toString());
             System.err.println("Message: " + ex.getMessage());
             ex.printStackTrace(System.err);
         }
-        jScrollPane1.setViewportView(edtAddtlJARs);
+        jScrollPane1.setViewportView(edtJars);
 
-        jScrollPane2.setViewportView(lstFiles);
-
-        btnSelectAdditional.setText("Select Additional JAR Files...");
-        btnSelectAdditional.addActionListener(new java.awt.event.ActionListener() {
+        btnGetJARs.setText("...");
+        btnGetJARs.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Button_Click(evt);
+                FindJARs_Click(evt);
             }
         });
+
+        txtAddtlJARs.setColumns(20);
+        txtAddtlJARs.setRows(5);
+        txtAddtlJARs.setName("additional.jars");
+        jScrollPane2.setViewportView(txtAddtlJARs);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnSelectAdditional)))
+                        .addComponent(btnGetJARs))
+                    .addComponent(jScrollPane2))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnSelectAdditional)
+                .addComponent(btnGetJARs)
                 .addContainerGap())
         );
     }// </editor-fold>                        
 
-    private void Button_Click(java.awt.event.ActionEvent evt) {                              
+    private void FindJARs_Click(java.awt.event.ActionEvent evt) {                                
+        // Add the addtional JAR files to the text area, splitting each one with
+        //+ a new line ('\n') characters.
         // Create and display a file selector.
         JFileChooser chooser = new JFileChooser(System.getProperty("user.home"));
         FileNameExtensionFilter filter = new FileNameExtensionFilter("License "
@@ -117,32 +122,27 @@ public class GetAddtlJARsPage extends WizardPage {
         int returnVal = chooser.showOpenDialog(this);
         
         if ( returnVal == JFileChooser.APPROVE_OPTION ) {
-            DefaultListModel<String> model = new DefaultListModel<>();
             File[] files = chooser.getSelectedFiles();
-            
-            if ( lstFiles.getModel().getSize() > 0 ) {
-                for ( int x = 0; x < lstFiles.getModel().getSize(); x++ )
-                    model.add(x, lstFiles.getModel().getElementAt(x));
-            }
             
             if ( files.length > 1 ) {
             
                 for ( File file : files ) {
-                    model.addElement(file.getAbsolutePath());
+                    txtAddtlJARs.setText(txtAddtlJARs.getText() + 
+                                         file.getAbsolutePath() + "\n");
                 }
-            } else
-                model.addElement(files[0].getAbsolutePath());
+            } else if ( files.length !=0 )
+                txtAddtlJARs.setText(files[0].getAbsolutePath());
             
-            lstFiles.setModel(model);
+            
         }
-    }                             
+    }                               
 
 
     // Variables declaration - do not modify                     
-    private javax.swing.JButton btnSelectAdditional;
-    private javax.swing.JEditorPane edtAddtlJARs;
+    private javax.swing.JButton btnGetJARs;
+    private javax.swing.JEditorPane edtJars;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JList<String> lstFiles;
+    private javax.swing.JTextArea txtAddtlJARs;
     // End of variables declaration                   
 }

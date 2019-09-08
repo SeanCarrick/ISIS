@@ -195,12 +195,26 @@ public class GetDefInstLocPage extends WizardPage {
         String key = cboEnvVars.getSelectedItem().toString();
         if ( key.equalsIgnoreCase("user home") ) {
             txtLocation.setText(System.getProperty("user.home") +
+                                System.getProperty("file.separator") +
+                                getWizardData("project") +
                                 System.getProperty("file.separator"));
             return;
+        } else {
+            if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+                txtLocation.setText(ISIS.environment.get(key) +
+                                    System.getProperty("file.separator") + 
+                                    getWizardData("project") +
+                                    System.getProperty("file.separator"));
+            } else {
+                txtLocation.setText(System.getProperty("file.separator") +
+                                    "usr" + 
+                                    System.getProperty("file.separator") +
+                                    "local" + 
+                                    System.getProperty("file.separator") +
+                                    getWizardData("project") +
+                                    System.getProperty("file.separator"));
+            }
         }
-        
-        txtLocation.setText(ISIS.environment.get(key) + 
-                            System.getProperty("file.separator"));
     }                                     
 
     private void Field_GotFocus(java.awt.event.FocusEvent evt) {                                
