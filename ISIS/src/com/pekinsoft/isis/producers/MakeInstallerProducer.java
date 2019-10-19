@@ -14,9 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.is2300.isis.producers;
+package com.pekinsoft.isis.producers;
 
-import com.is2300.isis.generators.InstallerGenerator;
+import com.pekinsoft.isis.generators.InstallerGenerator;
 import java.util.Map;
 import java.util.Properties;
 import javax.swing.JLabel;

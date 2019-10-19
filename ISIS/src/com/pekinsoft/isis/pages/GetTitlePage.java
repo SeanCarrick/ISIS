@@ -14,32 +14,30 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.is2300.isis.pages;
+package com.pekinsoft.isis.pages;
 
 import java.awt.Component;
-import java.io.File;
 import java.io.IOException;
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import org.netbeans.spi.wizard.WizardPage;
 
 /**
  *
  * @author Sean Carrick <sean at carricktrucking.com>
  */
-public class GetJARPage extends WizardPage {
-    public GetJARPage() {
+public class GetTitlePage extends WizardPage {
+    
+    public GetTitlePage() {
         initComponents();
     }
     
     public static final String getDescription() {
-        return "Select Primary Project JAR File";
+        return "Welcome to the ISIS Wizard";
     }
     
     @Override
     protected String validateContents(Component component, Object event) {
-        if ( txtJARFile.getText().endsWith("{somefile}.jar") )
-            return "You need to select your project's JAR file.";
+        if ( txtProject.getText().isBlank() || txtProject.getText().isEmpty() )
+            return "Your Project Name needs to be entered for the folder name.";
         
         return null;
     }
@@ -54,48 +52,36 @@ public class GetJARPage extends WizardPage {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        edtLicense = new javax.swing.JEditorPane();
-        jar = new javax.swing.JButton();
-        lblJARFile = new javax.swing.JLabel();
-        txtJARFile = new javax.swing.JTextField();
+        edtWelcom = new javax.swing.JEditorPane();
+        lblProject = new javax.swing.JLabel();
+        txtProject = new javax.swing.JTextField();
+        txtProject.setName("project");
 
         setMaximumSize(new java.awt.Dimension(530, 360));
         setMinimumSize(new java.awt.Dimension(530, 360));
 
-        edtLicense.setEditable(false);
+        edtWelcom.setEditable(false);
         try {
-            edtLicense.setPage(ClassLoader.getSystemResource("com/is2300/isis/contents/jar.html"));
+            edtWelcom.setPage(ClassLoader.getSystemResource("com/is2300/isis/contents/title.html"));
         } catch ( IOException ex ) {
             System.err.println("Cause: " + ex.getCause().toString());
             System.err.println("Message: " + ex.getMessage());
             ex.printStackTrace(System.err);
         }
-        jScrollPane1.setViewportView(edtLicense);
+        jScrollPane1.setViewportView(edtWelcom);
 
-        jar.setMnemonic('J');
-        jar.setText("Select JAR File...");
-        jar.addActionListener((java.awt.event.ActionEvent evt) -> {
-            JAR_Clicked(evt);
-        });
-
-        lblJARFile.setText("JAR File:");
-
-        txtJARFile.setText(System.getProperty("user.home") + 
-                           System.getProperty("file.separator") +
-                           "{somefile}.jar");
+        lblProject.setText("Enter Project Name (for Install Folder):");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblJARFile)
+                .addComponent(lblProject)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtJARFile, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(jar)
+                .addComponent(txtProject)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -104,36 +90,17 @@ public class GetJARPage extends WizardPage {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jar)
-                    .addComponent(lblJARFile)
-                    .addComponent(txtJARFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblProject)
+                    .addComponent(txtProject, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
     }// </editor-fold>                        
 
-    private void JAR_Clicked(java.awt.event.ActionEvent evt) {                             
-        // Create and display a file selector.
-        JFileChooser chooser = new JFileChooser(System.getProperty("user.home"));
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("License "
-                + "Java Archive Files", "jar");
-        chooser.setFileFilter(filter);
-        chooser.setDialogTitle("Select Project JAR File");
-        
-        int returnVal = chooser.showOpenDialog(this);
-        
-        if ( returnVal == JFileChooser.APPROVE_OPTION ) {
-            File jar = chooser.getSelectedFile();
-            
-            txtJARFile.setText(jar.getAbsolutePath());
-        }
-    }                            
-
 
     // Variables declaration - do not modify                     
-    private javax.swing.JEditorPane edtLicense;
+    private javax.swing.JEditorPane edtWelcom;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JButton jar;
-    private javax.swing.JLabel lblJARFile;
-    private javax.swing.JTextField txtJARFile;
+    private javax.swing.JLabel lblProject;
+    private javax.swing.JTextField txtProject;
     // End of variables declaration                   
 }

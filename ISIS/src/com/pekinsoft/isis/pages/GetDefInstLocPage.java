@@ -14,9 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.is2300.isis.pages;
+package com.pekinsoft.isis.pages;
 
-import com.is2300.isis.ISIS;
+import com.pekinsoft.isis.ISIS;
 import java.awt.Component;
 import java.io.IOException;
 import javax.swing.DefaultComboBoxModel;

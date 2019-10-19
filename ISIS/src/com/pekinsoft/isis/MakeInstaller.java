@@ -14,15 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.is2300.isis;
+package com.pekinsoft.isis;
 
-import com.is2300.isis.pages.GetAddtlJARsPage;
-import com.is2300.isis.pages.GetDefInstLocPage;
-import com.is2300.isis.pages.GetJARPage;
-import com.is2300.isis.pages.GetLAPage;
-import com.is2300.isis.pages.GetLibsPage;
-import com.is2300.isis.producers.MakeInstallerProducer;
-import com.is2300.isis.pages.GetTitlePage;
+import com.pekinsoft.isis.pages.GetAddtlJARsPage;
+import com.pekinsoft.isis.pages.GetDefInstLocPage;
+import com.pekinsoft.isis.pages.GetJARPage;
+import com.pekinsoft.isis.pages.GetLAPage;
+import com.pekinsoft.isis.pages.GetLibsPage;
+import com.pekinsoft.isis.producers.MakeInstallerProducer;
+import com.pekinsoft.isis.pages.GetTitlePage;
 import java.awt.EventQueue;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
